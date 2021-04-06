@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-#define _extern extern "C" __attribute__((__visibility__("default")))
+#define _extern extern "C" __attribute__((__visibility__("hidden")))
 
 #ifdef __cplusplus
 extern "C" {

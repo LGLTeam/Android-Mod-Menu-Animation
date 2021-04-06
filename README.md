@@ -5,6 +5,8 @@ I can't add animation for linearlayout since codes are different, I'm not good a
 
 It's based on Titanic project https://github.com/romainpiel/Titanic
 
+Based on mod menu 2.4
+
 Have fun :))
 
 ![](https://i.imgur.com/BSGMB1L.gif)

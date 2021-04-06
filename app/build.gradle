@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
-        versionName "2.0"
+        versionName "2.4"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86'
         }
@@ -30,7 +30,7 @@ android {
             path file('src/main/jni/Android.mk')
         }
     }
-    ndkVersion = '21.3.6528147'
+    ndkVersion = '22.0.7026061'
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
     }

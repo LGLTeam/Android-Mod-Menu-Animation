@@ -163,7 +163,7 @@ extern "C" size_t MSGetInstructionWidth(void *start) {
 static size_t SubstrateHookFunctionThumb(SubstrateProcessRef process, void *symbol, void *replace, void **result) {
     if (symbol == NULL)
         return 0;
-printf("SubstrateHookFunctionThumb\n");
+printf(OBFUSCATE("SubstrateHookFunctionThumb\n"));
     uint16_t *area(reinterpret_cast<uint16_t *>(symbol));
 
     unsigned align((reinterpret_cast<uintptr_t>(area) & 0x2) == 0 ? 0 : 1);
@@ -562,7 +562,7 @@ printf("SubstrateHookFunctionThumb\n");
 static size_t SubstrateHookFunctionARM(SubstrateProcessRef process, void *symbol, void *replace, void **result) {
     if (symbol == NULL)
         return 0;
-printf("SubstrateHookFunctionARM\n");
+    printf(OBFUSCATE("SubstrateHookFunctionARM\n"));
     uint32_t *area(reinterpret_cast<uint32_t *>(symbol));
     uint32_t *arm(area);
 
@@ -665,7 +665,7 @@ printf("SubstrateHookFunctionARM\n");
     buffer[start+1] = reinterpret_cast<uint32_t>(area + used / sizeof(uint32_t));
 
     if (mprotect(buffer, length, PROT_READ | PROT_EXEC) == -1) {
-        MSLog(MSLogLevelError, "MS:Error:mprotect():%d", errno);
+        MSLog(MSLogLevelError, OBFUSCATE("MS:Error:mprotect():%d"), errno);
         goto fail;
     }
 
@@ -716,8 +716,8 @@ static size_t MSGetInstructionWidthIntel(void *start) {
 
 static void
 SubstrateHookFunction(SubstrateProcessRef process, void *symbol, void *replace, void **result) {
-    //if (MSDebug)
-    //MSLog(MSLogLevelNotice, "MSHookFunction(%p, %p, %p)\n", symbol, replace, result);
+    if (MSDebug)
+     MSLog(MSLogLevelNotice, OBFUSCATE("MSHookFunction(%p, %p, %p)\n"), symbol, replace, result);
     if (symbol == NULL)
         return;
 
@@ -938,12 +938,11 @@ SubstrateHookFunction(SubstrateProcessRef process, void *symbol, void *replace, 
 
 #endif
 
-_extern void MSHookFunction(void *symbol, void *replace, void **result) {
+void MSHookFunction(void *symbol, void *replace, void **result) {
 #if defined(__i386__) || defined(__arm__)
     SubstrateHookFunction(NULL, symbol, replace, result);
 #endif
 }
-
 
 #if defined(__APPLE__) && defined(__arm__)
 _extern void _Z14MSHookFunctionPvS_PS_(void *symbol, void *replace, void **result) {
