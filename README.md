@@ -9,4 +9,4 @@ Based on mod menu 2.4
 
 Have fun :))
 
-![](https://i.imgur.com/BSGMB1L.gif)
+![](https://i.imgur.com/G8pVPyj.gif)
