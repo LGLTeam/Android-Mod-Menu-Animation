@@ -1,13 +1,3 @@
-/*
- * Credits:
- *
- * Octowolve - Mod menu: https://github.com/z3r0Sec/Substrate-Template-With-Mod-Menu
- * And hooking: https://github.com/z3r0Sec/Substrate-Hooking-Example
- * VanHoevenTR A.K.A Nixi: https://github.com/LGLTeam/VanHoevenTR_Android_Mod_Menu
- * MrIkso - Mod menu: https://github.com/MrIkso/FloatingModMenu
- * Rprop - https://github.com/Rprop/And64InlineHook
- * MJx0 A.K.A Ruit - KittyMemory: https://github.com/MJx0/KittyMemory
- * */
 #include <list>
 #include <vector>
 #include <string.h>
@@ -17,17 +7,19 @@
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
-#include "Includes/obfuscate.h"
-#include "KittyMemory/MemoryPatch.h"
 #include "Includes/Logger.h"
+#include "Includes/obfuscate.h"
 #include "Includes/Utils.h"
+#include "KittyMemory/MemoryPatch.h"
 #include "Menu.h"
 
 #if defined(__aarch64__) //Compile for arm64 lib only
 #include <And64InlineHook/And64InlineHook.hpp>
 #else //Compile for armv7 lib only. Do not worry about greyed out highlighting code, it still works
+
 #include <Substrate/SubstrateHook.h>
 #include <Substrate/CydiaSubstrate.h>
+
 #endif
 
 // fancy struct for patches for kittyMemory
@@ -69,7 +61,6 @@ bool get_BoolExample(void *instance) {
 }
 
 float (*old_get_FloatExample)(void *instance);
-
 float get_FloatExample(void *instance) {
     if (instance != NULL && sliderValue > 1) {
         return (float) sliderValue;
@@ -78,7 +69,6 @@ float get_FloatExample(void *instance) {
 }
 
 void (*old_Update)(void *instance);
-
 void Update(void *instance) {
     instanceBtn = instance;
     old_Update(instance);
@@ -91,6 +81,12 @@ void *hack_thread(void *) {
     do {
         sleep(1);
     } while (!isLibraryLoaded(targetLibName));
+
+    //Anti-lib rename
+    /*
+    do {
+        sleep(1);
+    } while (!isLibraryLoaded("libYOURNAME.so"));*/
 
     LOGI(OBFUSCATE("%s has been loaded"), (const char *) targetLibName);
 
@@ -152,11 +148,6 @@ void *hack_thread(void *) {
 
 //JNI calls
 extern "C" {
-JNIEXPORT void JNICALL
-Java_uk_lgl_MainActivity_Toast(JNIEnv *env, jclass obj, jobject context) {
-    MakeToast(env, context, OBFUSCATE("Modded by LGL"), Toast::LENGTH_LONG);
-}
-
 // Note:
 // Do not change or translate the first text unless you know what you are doing
 // Assigning feature numbers is optional. Without it, it will automatically count for you, starting from 0
@@ -167,35 +158,49 @@ Java_uk_lgl_MainActivity_Toast(JNIEnv *env, jclass obj, jobject context) {
 
 JNIEXPORT jobjectArray
 JNICALL
-Java_uk_lgl_modmenu_FloatingModMenuService_getFeatureList(JNIEnv *env, jobject activityObject) {
+Java_uk_lgl_modmenu_FloatingModMenuService_getFeatureList(JNIEnv *env, jobject context) {
     jobjectArray ret;
+
+    //Toasts added here so it's harder to remove it
+    MakeToast(env, context, OBFUSCATE("Modded by LGL"), Toast::LENGTH_LONG);
 
     const char *features[] = {
             OBFUSCATE("Category_The Category"), //Not counted
-            OBFUSCATE("Toggle_The toggle"), //Starts with 0
+            OBFUSCATE("Toggle_The toggle"),
             OBFUSCATE("100_Toggle_True_The toggle 2"), //This one have feature number assigned, and switched on by default
             OBFUSCATE("110_Toggle_The toggle 3"), //This one too
-            OBFUSCATE("SeekBar_The slider_1_100"), //Assigned numbers are not counted, so 1
-            OBFUSCATE("SeekBar_Kittymemory slider example_1_5"), //2
-            OBFUSCATE("Spinner_The spinner_Items 1,Items 2,Items 3"), //3
-            OBFUSCATE("Button_The button"), //4
+            OBFUSCATE("SeekBar_The slider_1_100"),
+            OBFUSCATE("SeekBar_Kittymemory slider example_1_5"),
+            OBFUSCATE("Spinner_The spinner_Items 1,Items 2,Items 3"),
+            OBFUSCATE("Button_The button"),
             OBFUSCATE("ButtonLink_The button with link_https://www.youtube.com/"), //Not counted
-            OBFUSCATE("ButtonOnOff_The On/Off button"), //5
+            OBFUSCATE("ButtonOnOff_The On/Off button"),
             OBFUSCATE("CheckBox_The Check Box"),
             OBFUSCATE("InputValue_Input number"),
             OBFUSCATE("InputText_Input text"),
             OBFUSCATE("RadioButton_Radio buttons_OFF,Mod 1,Mod 2,Mod 3"),
-            OBFUSCATE(
-                    "RichTextView_This is text view, not fully HTML."
-                    "<b>Bold</b> <i>italic</i> <u>underline</u>"
-                    "<br />New line <font color='red'>Support colors</font>"
-                    "<br/><big>bigger Text</big>"),
-            OBFUSCATE(
-                    "RichWebView_<html><head><style>body{color: white;}</style></head><body>"
-                    "This is WebView, with REAL HTML support!"
-                    "<div style=\"background-color: darkblue; text-align: center;\">Support CSS</div>"
-                    "<marquee style=\"color: green; font-weight:bold;\" direction=\"left\" scrollamount=\"5\" behavior=\"scroll\">This is <u>scrollable</u> text</marquee>"
-                    "</body></html>")
+
+            //Create new collapse
+            OBFUSCATE("Collapse_Collapse 1"),
+            OBFUSCATE("CollapseAdd_Toggle_The toggle"),
+            OBFUSCATE("CollapseAdd_Toggle_The toggle"),
+            OBFUSCATE("123_CollapseAdd_Toggle_The toggle"),
+            OBFUSCATE("CollapseAdd_Button_The button"),
+
+            //Create new collapse again
+            OBFUSCATE("Collapse_Collapse 2"),
+            OBFUSCATE("CollapseAdd_SeekBar_The slider_1_100"),
+            OBFUSCATE("CollapseAdd_InputValue_Input number"),
+
+            OBFUSCATE("RichTextView_This is text view, not fully HTML."
+                      "<b>Bold</b> <i>italic</i> <u>underline</u>"
+                      "<br />New line <font color='red'>Support colors</font>"
+                      "<br/><big>bigger Text</big>"),
+            OBFUSCATE("RichWebView_<html><head><style>body{color: white;}</style></head><body>"
+                      "This is WebView, with REAL HTML support!"
+                      "<div style=\"background-color: darkblue; text-align: center;\">Support CSS</div>"
+                      "<marquee style=\"color: green; font-weight:bold;\" direction=\"left\" scrollamount=\"5\" behavior=\"scroll\">This is <u>scrollable</u> text</marquee>"
+                      "</body></html>")
     };
 
     //Now you dont have to manually update the number everytime;
@@ -308,7 +313,7 @@ Java_uk_lgl_modmenu_Preferences_Changes(JNIEnv *env, jclass clazz, jobject obj,
             // See more https://guidedhacking.com/threads/android-function-pointers-hooking-template-tutorial.14771/
             if (instanceBtn != NULL)
                 AddMoneyExample(instanceBtn, 999999);
-            MakeToast(env, obj, OBFUSCATE("Button pressed"), Toast::LENGTH_SHORT);
+            // MakeToast(env, obj, OBFUSCATE("Button pressed"), Toast::LENGTH_SHORT);
             break;
         case 5:
             break;
@@ -318,79 +323,13 @@ Java_uk_lgl_modmenu_Preferences_Changes(JNIEnv *env, jclass clazz, jobject obj,
         case 7:
             break;
         case 8:
-            MakeToast(env, obj, TextInput, Toast::LENGTH_SHORT);
+            //MakeToast(env, obj, TextInput, Toast::LENGTH_SHORT);
             break;
         case 9:
             break;
     }
 }
 }
-
-																	
-
-																										
-																	
-																	   
-
-						   
-									  
-
-								   
-		
-				 
-											  
-
-																								
-
-													 
-																																	 
-																  
-																								  
-																						  
-											   
-																									
-																								   
-																						   
-
-						  
-																																									  
-													  
-
-																								 
-																																
-																					   
-
-																								   
-
-																																	
-																  
-																								  
-																						  
-											   
-																									
-																								   
-																						   
-												  
-								  
-								   
-
-						  
-															   
-																						  
-																										 
-
-																																									 
-																																			 
-
-																								 
-																																
-																						  
-
-							
-	  
-
-				
- 
 
 //No need to use JNI_OnLoad, since we don't use JNIEnv
 //We do this to hide OnLoad from disassembler

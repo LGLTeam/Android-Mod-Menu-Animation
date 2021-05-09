@@ -7,20 +7,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
 import android.provider.Settings;
 import android.widget.Toast;
 
 import uk.lgl.modmenu.FloatingModMenuService;
 
-import static uk.lgl.modmenu.Preferences.context;
-
 public class MainActivity extends Activity {
 
+    //Only if you have changed MainActivity to yours and you wanna call game's activity.
     public String GameActivity = "com.unity3d.player.UnityPlayerActivity";
     public boolean hasLaunched = false;
-
-    public static native void Toast(Context context);
 
     //Load lib
     static {
@@ -29,11 +25,12 @@ public class MainActivity extends Activity {
         System.loadLibrary("MyLibName");
     }
 
+    //To call onCreate, please refer to README.md
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
-        //To launch mod menu. If you don't use mod menu, remove or comment out Start(this);
+
+        //To launch mod menu.
         Start(this);
 
         //To launch game activity
@@ -42,6 +39,7 @@ public class MainActivity extends Activity {
                 //Start service
                 //MainActivity.this.startActivity(new Intent(MainActivity.this, Class.forName(MainActivity.this.GameActivity)));
                 MainActivity.this.startActivity(new Intent(MainActivity.this, Class.forName(MainActivity.this.GameActivity)));
+                hasLaunched = true;
             } catch (ClassNotFoundException e) {
                 //Uncomment this if you are following METHOD 2 of CHANGING FILES
                 //Toast.makeText(MainActivity.this, "Error. Game's main activity does not exist", Toast.LENGTH_LONG).show();
@@ -51,9 +49,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    //Load mod menu
     public static void Start(final Context context) {
-        //Check for
+        //Check if overlay permission is enabled or not
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
             Toast.makeText(context.getApplicationContext(), "Overlay permission is required in order to show mod menu. Restart the game after you allow permission", Toast.LENGTH_LONG).show();
             Toast.makeText(context.getApplicationContext(), "Overlay permission is required in order to show mod menu. Restart the game after you allow permission", Toast.LENGTH_LONG).show();
@@ -76,16 +73,5 @@ public class MainActivity extends Activity {
                 }
             }, 500);
         }
-
-        //Use getApplicationContext() to fix dark background of Toast message
-        CallToast(context);
-    }
-
-    public static void CallToast(final Context context) {
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                Toast(context.getApplicationContext());
-            }
-        }, 500);
     }
 }
