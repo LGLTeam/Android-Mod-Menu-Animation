@@ -11,4 +11,4 @@ This project is based on mod menu 2.5 https://github.com/LGLTeam/Android-Mod-Men
 
 Have fun :))
 
-<img src="https://i.imgur.com/hG4oo3w.gif"/>
+![](demo.gif)
