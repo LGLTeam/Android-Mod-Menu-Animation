@@ -297,7 +297,11 @@ public class FloatingModMenuService extends Service {
         relativeLayout.setVerticalGravity(Gravity.CENTER);
 
         //Button hideBtn = new Button(this);
+        RelativeLayout.LayoutParams lParamsHideBtn = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        lParamsHideBtn.addRule(ALIGN_PARENT_LEFT);
+
         TitanicButton hideBtn = new TitanicButton(this);
+        hideBtn.setLayoutParams(lParamsHideBtn);
         hideBtn.setBackgroundColor(Color.TRANSPARENT);
         hideBtn.setText("HIDE/KILL (Hold)");
         hideBtn.setTextColor(TEXT_COLOR);
@@ -321,7 +325,11 @@ public class FloatingModMenuService extends Service {
         new Titanic().start(hideBtn);
 
         //********** Close button **********
+        RelativeLayout.LayoutParams lParamsCloseBtn = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        lParamsCloseBtn.addRule(ALIGN_PARENT_RIGHT);
+
         TitanicButton closeBtn = new TitanicButton(this);
+        closeBtn.setLayoutParams(lParamsCloseBtn);
         closeBtn.setBackgroundColor(Color.TRANSPARENT);
         closeBtn.setText("MINIMIZE");
         closeBtn.setTextColor(TEXT_COLOR);
@@ -332,11 +340,9 @@ public class FloatingModMenuService extends Service {
                 mExpanded.setVisibility(View.GONE);
             }
         });
+
         new Titanic().start(closeBtn);
 
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-        layoutParams.addRule(ALIGN_PARENT_RIGHT);
-        closeBtn.setLayoutParams(layoutParams);
 
         //********** Params **********
         //Variable to check later if the phone supports Draw over other apps permission

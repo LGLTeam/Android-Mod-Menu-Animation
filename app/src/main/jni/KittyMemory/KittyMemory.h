@@ -26,7 +26,6 @@
 
 #define EMPTY_VEC_OFFSET std::vector<int>()
 
-
 namespace KittyMemory {
 
     typedef enum {

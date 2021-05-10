@@ -37,15 +37,15 @@ public class Logcat {
             }
             long unixTime = System.currentTimeMillis() / 1000L;
             if (Build.VERSION.SDK_INT >= 30) { //Android R. AIDE didn't support Build.VERSION_CODES.R
-                path = new File("/storage/emulated/0/Documents/Mod Menu logs/");
+                path = new File("/storage/emulated/0/Documents/");
             } else {
-                path = new File(context.getExternalFilesDir(null) + "/Mod Menu logs");
+                path = new File(context.getExternalFilesDir(null) + "/Mod Menu");
             }
 
             File folder = new File(String.valueOf(path));
             folder.mkdirs();
 
-            File file = new File(path + "/Log " + context.getPackageName() + " " + unixTime + ".txt");
+            File file = new File(path + "/Mod menu log - " + context.getPackageName() + ".txt");
             file.createNewFile();
 
             try {

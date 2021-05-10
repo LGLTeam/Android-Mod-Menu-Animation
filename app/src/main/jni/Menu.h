@@ -86,8 +86,8 @@ Java_uk_lgl_modmenu_FloatingModMenuService_settingsList(JNIEnv *env, jobject act
             OBFUSCATE("Category_Logcat"),
             OBFUSCATE("RichTextView_Save logcat if a bug occured and sent it to the modder. Clear logcat and reproduce bug again if the log file is too large"),
             OBFUSCATE("RichTextView_<small>Saving logcat does not need file permission. Logcat location:"
-                            "<br/>Android 11: /storage/emulated/0/Documents/Mod Menu logs/"
-                            "<br/>Android 10 and below: /storage/emulated/0/Android/data/(package name)/files/Mod Menu logs</small>"),
+                            "<br/>Android 11: /storage/emulated/0/Documents/"
+                            "<br/>Android 10 and below: /storage/emulated/0/Android/data/(package name)/files/Mod Menu</small>"),
             OBFUSCATE("-4_Button_Save logcat to file"),
             OBFUSCATE("-5_Button_Clear logcat"),
             OBFUSCATE("Category_Menu"),
