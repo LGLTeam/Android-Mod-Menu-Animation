@@ -542,8 +542,10 @@ public class FloatingModMenuService extends Service {
             public void onCheckedChanged(CompoundButton compoundButton, boolean bool) {
                 Preferences.changeFeatureBool(featName, featNum, bool);
                 switch (featNum) {
-                    case -1:
+                    case -1: //Save perferences
                         Preferences.with(switchR.getContext()).writeBoolean(-1, bool);
+                        if (bool == false)
+                            Preferences.with(switchR.getContext()).clear(); //Clear perferences if switched off
                         break;
                     case -2:
                         Preferences.isAnimating = bool;
@@ -779,7 +781,7 @@ public class FloatingModMenuService extends Service {
                 final EditText edittext = new EditText(getApplicationContext());
                 edittext.setMaxLines(1);
                 edittext.setWidth(convertDipToPixels(300));
-
+                edittext.setTextColor(TEXT_COLOR_2);
                 if (numOnly) {
                     edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
                     edittext.setKeyListener(DigitsKeyListener.getInstance("0123456789-"));
