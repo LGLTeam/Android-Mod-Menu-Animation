@@ -31,7 +31,7 @@ struct My_Patches {
 } hexPatches;
 
 bool feature1 = false, feature2 = false, featureHookToggle = false;
-int sliderValue = 1;
+int sliderValue = 1, level = 0;
 void *instanceBtn;
 
 // Function pointer splitted because we want to avoid crash when the il2cpp lib isn't loaded.
@@ -66,6 +66,14 @@ float get_FloatExample(void *instance) {
         return (float) sliderValue;
     }
     return old_get_FloatExample(instance);
+}
+
+int (*old_Level)(void *instance);
+int Level(void *instance) {
+    if (instance != NULL && level) {
+        return (int) level;
+    }
+    return old_Level(instance);
 }
 
 void (*old_Update)(void *instance);
