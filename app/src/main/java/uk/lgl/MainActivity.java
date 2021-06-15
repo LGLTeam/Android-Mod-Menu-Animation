@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.widget.Toast;
 
-import uk.lgl.modmenu.R;
 import uk.lgl.modmenu.FloatingModMenuService;
 
 public class MainActivity extends Activity {
