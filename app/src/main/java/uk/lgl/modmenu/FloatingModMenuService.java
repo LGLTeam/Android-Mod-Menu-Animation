@@ -1069,7 +1069,7 @@ public class FloatingModMenuService extends Service {
             final int end = Color.parseColor("#dd240b36");
 
             final ArgbEvaluator evaluator = new ArgbEvaluator();
-            GradientDrawable gd = new GradientDrawable();
+            final GradientDrawable gd = new GradientDrawable();
             gd.setCornerRadius(MENU_CORNER);
             gd.setOrientation(GradientDrawable.Orientation.TL_BR);
             final GradientDrawable gradient = gd;
@@ -1088,6 +1088,7 @@ public class FloatingModMenuService extends Service {
                     int[] newArray = {newStart, newEnd};
                     gradient.setColors(newArray);
                     mExpanded.setBackground(gd);
+       
                 }
             });
 
